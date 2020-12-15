@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ScrabbleScorer.Views.GameDetailPage"
+             xmlns:local="clr-namespace:ScrabbleScorer.ViewModels"   
+             xmlns:model="clr-namespace:ScrabbleScorer.Models"  
+             Title="{Binding Title}">
+
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="Name:" FontSize="Title" />
+        <Label Text="{Binding Name}" FontSize="Title"/>
+        <Label Text="Start Game:" FontSize="Title" />
+        <Label Text="{Binding StartDateTime, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Title"/>
+        <Label Text="End Game:" FontSize="Title" />
+        <Label Text="{Binding EndDateTime, StringFormat='{0:dd/MM/yyyy}'}" FontSize="Title"/>
+        <RefreshView x:DataType="local:GameDetailViewModel" Command="{Binding LoadPlayersCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="PlayersScoreListView"
+                ItemsSource="{Binding PlayersDisplay}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" x:DataType="model:Player">
+                            <Label Text="{Binding Name}" 
+                            LineBreakMode="NoWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="Title" />
+                            <Label Text="{Binding FinalScore}" 
+                            LineBreakMode="NoWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="Title"
+                            FontAttributes="Bold"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+    
+</ContentPage>
